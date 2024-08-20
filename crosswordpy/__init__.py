@@ -14,7 +14,7 @@ from pygame.locals import KEYDOWN, MOUSEBUTTONDOWN, QUIT
 # http://www.gamedesign.jp/flash/crossword/crossword_jp.html
 
 # see pyproject.toml
-__version__ = "0.0.3"
+__version__ = "0.1.0"
 __author__ = "Saito Tsutomu <tsutomu7@hotmail.co.jp>"
 
 
@@ -25,9 +25,7 @@ class crosswordpy:
         self.wd = 52
         self.wds = self.wd * 11
         self.probs = []
-        for fnam in glob.glob(
-            os.path.join(os.path.dirname(__file__), "crosswordpy_data/*.txt")
-        ):
+        for fnam in glob.glob(os.path.join(os.path.dirname(__file__), "crosswordpy_data/*.txt")):
             with open(fnam) as fp:
                 self.probs.append(fp.read())
 
@@ -35,9 +33,7 @@ class crosswordpy:
         sc, wd, wds = self.screen, self.wd, self.wds
         bk, wh, bl = (0, 0, 0), (255, 255, 255), (0, 0, 128)
         sc.fill((240, 240, 240))
-        t = self.fontsm.render(
-            ["Beginner", "Easy", "Normal", "Hard", "Expert"][self.pos], True, bl
-        )
+        t = self.fontsm.render(["Beginner", "Easy", "Normal", "Hard", "Expert"][self.pos], True, bl)
         sc.blit(t, (wds + 22, 16))
         for i in range(12):
             pg.draw.line(sc, bk, (0, wd * i), (wds, wd * i))
@@ -71,9 +67,7 @@ class crosswordpy:
                 1,
             )
             if i < 26:
-                t = self.font.render(
-                    chr(i + 65), True, (168, 168, 168) if self.done[i] else (64, 64, 64)
-                )
+                t = self.font.render(chr(i + 65), True, (168, 168, 168) if self.done[i] else (64, 64, 64))
                 sc.blit(
                     t,
                     ((i % 3) * wd - t.get_width() // 2 + wds + 38, (i // 3) * wd + 52),
@@ -160,9 +154,7 @@ class crosswordpy:
                             ):
                                 self.cur = self.prob[i1 + j1 * 11]
                             elif 0 <= i2 < 3 and 0 <= j2 < 9:
-                                self.put(
-                                    " " if (i2, j2) == (2, 8) else chr(i2 + j2 * 3 + 65)
-                                )
+                                self.put(" " if (i2, j2) == (2, 8) else chr(i2 + j2 * 3 + 65))
                     self.draw()
                     pg.display.update()
                     pg.time.wait(50)
@@ -171,9 +163,7 @@ class crosswordpy:
                         ttltm += time.time() - tm
                         tkinter.messagebox.showinfo(
                             "Crossword Puzzle",
-                            "OK"
-                            if self.pos < 4
-                            else f"Conglatulations ({ttltm:.1f} sec)",
+                            "OK" if self.pos < 4 else f"Conglatulations ({ttltm:.1f} sec)",
                         )
 
 
