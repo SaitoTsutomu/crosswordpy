@@ -13,21 +13,20 @@ from pathlib import Path
 import pygame as pg
 from pygame.locals import KEYDOWN, MOUSEBUTTONDOWN, QUIT
 
-ALPHABET_NUM = 26
-
 
 class Crossword:
     """Crossword Puzzle"""
 
-    DATA = Path(__file__).parent / "crosswordpy_data"
+    DATA_DIR = Path(__file__).parent / "crosswordpy_data"
+    ALPHABET_NUM = 26
 
     def __init__(self) -> None:
         """初期化"""
         tk.Tk().wm_withdraw()
         self.wd = 52
         self.wds = self.wd * 11
-        self.probs = []
-        for file in self.DATA.glob("*.txt"):
+        self.probs = []  # 全問題
+        for file in self.DATA_DIR.glob("*.txt"):
             self.probs.append(file.read_text())
 
     def draw(self) -> None:
@@ -56,8 +55,8 @@ class Crossword:
                 if c != " ":
                     t = self.font.render(c, True, bl if h != " " else (64, 64, 64))  # noqa: FBT003
                     sc.blit(t, (x * wd - t.get_width() // 2 + 27, y * wd + 9))
-        for i in range(ALPHABET_NUM + 1):
-            if i == ALPHABET_NUM or not self.done[i]:
+        for i in range(self.ALPHABET_NUM + 1):
+            if i == self.ALPHABET_NUM or not self.done[i]:
                 pg.draw.rect(
                     sc,
                     (255, 255, 255),
@@ -69,7 +68,7 @@ class Crossword:
                 ((i % 3) * wd + wds + 14, (i // 3) * wd + 46, 50, 50),
                 1,
             )
-            if i < ALPHABET_NUM:
+            if i < self.ALPHABET_NUM:
                 t = self.font.render(chr(i + 65), True, (168, 168, 168) if self.done[i] else (64, 64, 64))  # noqa: FBT003
                 sc.blit(
                     t,
@@ -83,9 +82,9 @@ class Crossword:
 
     def set_prob(self) -> None:
         """問題設定"""
-        self.pos += 1
-        self.ok = False
-        self.cur = ""
+        self.pos += 1  # ステージ番号(0 ~ 4)
+        self.ok = False  # ステージが完成かどうか
+        self.cur = ""  # 選択中の文字
         s = random.choice(self.probs).rstrip("\n")
         if random.random() < 0.5:
             s = "\n".join("".join(c) for c in zip(*s.split("\n"), strict=False))
@@ -101,7 +100,7 @@ class Crossword:
 
     def reset_done(self) -> None:
         """「済み」をリセット"""
-        self.done = [True] * ALPHABET_NUM  # 全て指定済み
+        self.done = [True] * self.ALPHABET_NUM  # 全て指定済み
         for c in set(self.prob) - set(self.ans):
             self.done[ord(c) - 65] = False
 
@@ -129,7 +128,8 @@ class Crossword:
             for _ in range(5):
                 tm = time.time()
                 self.set_prob()
-                complete = chk = False
+                complete = False  # ステージクリアかどうか
+                chk = False  # total_timeに加算したかどうか
                 while not complete:
                     for ev in pg.event.get():
                         if ev.type == QUIT:
@@ -167,7 +167,8 @@ class Crossword:
                     if self.ok and not chk:
                         chk = True
                         total_time += time.time() - tm
-                        tkinter.messagebox.showinfo(
-                            "Crossword Puzzle",
-                            "OK" if self.pos < 4 else f"Congratulations ({total_time:.1f} sec)",
-                        )
+                        if self.pos == 4:
+                            tkinter.messagebox.showinfo(
+                                "Crossword Puzzle",
+                                f"Congratulations ({total_time:.1f} sec)",
+                            )
