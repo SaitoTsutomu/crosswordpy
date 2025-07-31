@@ -3,6 +3,7 @@
 http://www.gamedesign.jp/flash/crossword/crossword_jp.html
 """
 
+import contextlib
 import random
 import time
 import tkinter as tk
@@ -10,7 +11,8 @@ import tkinter.messagebox
 from collections import Counter
 from pathlib import Path
 
-import pygame as pg
+with contextlib.redirect_stdout(None):
+    import pygame as pg
 from pygame.locals import KEYDOWN, MOUSEBUTTONDOWN, QUIT
 
 
@@ -172,3 +174,12 @@ class Crossword:
                                 "Crossword Puzzle",
                                 f"Congratulations ({total_time:.1f} sec)",
                             )
+
+
+def main() -> None:
+    """ゲーム実行"""
+    Crossword().run()
+
+
+if __name__ == "__main__":
+    main()
