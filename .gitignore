@@ -3,7 +3,6 @@ tmp/
 nbs/
 .vscode/
 .DS_Store
-.python-version
 Untitled*.ipynb
 
 # Byte-compiled / optimized / DLL files
