@@ -29,6 +29,7 @@ crosswordpy = "crosswordpy:main"
 dev = []
 
 [tool.taskipy.tasks]
+lint = "ruff check src; pyrefly check src"
 pip-audit = "uv run -w pip-audit pip-audit"
 
 [tool.uv]
@@ -41,6 +42,9 @@ url = "https://pypi.flatt.tech/simple/"
 [tool.mypy]
 files = "src"
 ignore_missing_imports = true
+
+[tool.pyrefly]
+project-includes = ["src"]
 
 [tool.ruff]
 src = ["src"]
