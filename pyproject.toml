@@ -30,7 +30,6 @@ dev = []
 
 [tool.taskipy.tasks]
 lint = "ruff check src; pyrefly check src"
-pip-audit = "uv run -w pip-audit pip-audit"
 
 [tool.uv]
 exclude-newer = "3 days"
