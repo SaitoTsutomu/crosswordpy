@@ -29,7 +29,7 @@ crosswordpy = "crosswordpy:main"
 dev = []
 
 [tool.taskipy.tasks]
-lint = "ruff check src; pyrefly check src"
+lint = "ruff check src && pyrefly check src"
 
 [tool.uv]
 exclude-newer = "3 days"
@@ -58,4 +58,4 @@ max-complexity = 10
 
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.11.6,<0.12.0"]
+requires = ["uv_build>=0.12.0,<0.13.0"]

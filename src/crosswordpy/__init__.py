@@ -4,7 +4,7 @@ from importlib.metadata import metadata
 
 from .game import main as main
 
-_package_metadata = metadata(str(__package__))  # noqa: RUF067
+_package_metadata = metadata(str(__package__))  # ruff: ignore[non-empty-init-module]
 __version__ = _package_metadata["Version"]
 __author__ = _package_metadata.get("Author-email", "")
 

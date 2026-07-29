@@ -37,7 +37,7 @@ class Crossword:
         bk, wh, bl = (0, 0, 0), (255, 255, 255), (0, 0, 128)
         sc.fill((240, 240, 240))
         level = ["Beginner", "Easy", "Normal", "Hard", "Expert"][self.pos]
-        t = self.font_small.render(level, True, bl)  # noqa: FBT003
+        t = self.font_small.render(level, True, bl)  # ruff: ignore[boolean-positional-value-in-call]
         sc.blit(t, (wds + 22, 16))
         for i in range(12):
             pg.draw.line(sc, bk, (0, wd * i), (wds, wd * i))
@@ -55,7 +55,7 @@ class Crossword:
                     (x * wd + 1, y * wd + 1, wd - 1, wd - 1),
                 )
                 if c != " ":
-                    t = self.font.render(c, True, bl if h != " " else (64, 64, 64))  # noqa: FBT003
+                    t = self.font.render(c, True, bl if h != " " else (64, 64, 64))  # ruff: ignore[boolean-positional-value-in-call]
                     sc.blit(t, (x * wd - t.get_width() // 2 + 27, y * wd + 9))
         for i in range(self.ALPHABET_NUM + 1):
             if i == self.ALPHABET_NUM or not self.done[i]:
@@ -71,7 +71,7 @@ class Crossword:
                 1,
             )
             if i < self.ALPHABET_NUM:
-                t = self.font.render(chr(i + 65), True, (168, 168, 168) if self.done[i] else (64, 64, 64))  # noqa: FBT003
+                t = self.font.render(chr(i + 65), True, (168, 168, 168) if self.done[i] else (64, 64, 64))  # ruff: ignore[boolean-positional-value-in-call]
                 sc.blit(
                     t,
                     ((i % 3) * wd - t.get_width() // 2 + wds + 38, (i // 3) * wd + 52),
@@ -79,7 +79,7 @@ class Crossword:
         if self.ok:
             pg.draw.rect(sc, (255, 248, 208), (wds + 20, 9 * wd + 50, 140, 48))
             pg.draw.rect(sc, (0, 0, 0), (wds + 20, 9 * wd + 50, 140, 48), 1)
-            t = self.font.render("NEXT", True, bl)  # noqa: FBT003
+            t = self.font.render("NEXT", True, bl)  # ruff: ignore[boolean-positional-value-in-call]
             sc.blit(t, (wds + 30, 9 * wd + 56))
 
     def set_prob(self) -> None:
@@ -94,7 +94,7 @@ class Crossword:
         n = (5 - self.pos) * 2 + random.randint(0, 2)
         t = list(Counter(self.prob.replace(" ", "")).items())
         random.shuffle(t)
-        r = sorted(t, key=lambda x: x[1])  # noqa: FURB118
+        r = sorted(t, key=lambda x: x[1])  # ruff: ignore[reimplemented-operator]
         e = set(["" if i < v - 1 else k for k, v in r for i in range(v)][:n]) - {""}
         self.hint = "".join(c if c in e else " " for c in self.prob)
         self.ans = list(self.hint)
@@ -116,7 +116,7 @@ class Crossword:
         self.reset_done()
         self.ok = "".join(self.ans) == self.prob
 
-    def run(self) -> None:  # noqa: C901, PLR0912
+    def run(self) -> None:  # ruff: ignore[complex-structure, too-many-branches]
         """ゲーム実行"""
         pg.init()
         pg.display.set_caption("Crossword Puzzle")
@@ -124,7 +124,7 @@ class Crossword:
         self.screen = pg.display.get_surface()
         self.font = pg.font.Font(None, 64)
         self.font_small = pg.font.Font(None, 32)
-        while True:  # noqa: PLR1702
+        while True:  # ruff: ignore[too-many-nested-blocks]
             total_time = 0.0
             self.pos = -1
             for _ in range(5):
