@@ -13,6 +13,8 @@ from pathlib import Path
 
 with contextlib.redirect_stdout(None):
     import pygame as pg
+import operator
+
 from pygame.locals import KEYDOWN, MOUSEBUTTONDOWN, QUIT
 
 
@@ -94,7 +96,7 @@ class Crossword:
         n = (5 - self.pos) * 2 + random.randint(0, 2)
         t = list(Counter(self.prob.replace(" ", "")).items())
         random.shuffle(t)
-        r = sorted(t, key=lambda x: x[1])  # ruff: ignore[reimplemented-operator]
+        r = sorted(t, key=operator.itemgetter(1))
         e = set(["" if i < v - 1 else k for k, v in r for i in range(v)][:n]) - {""}
         self.hint = "".join(c if c in e else " " for c in self.prob)
         self.ans = list(self.hint)

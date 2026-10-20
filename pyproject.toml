@@ -4,7 +4,6 @@ authors = [
 ]
 classifiers = [
   "Development Status :: 1 - Planning",
-  "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python",
   "Topic :: Software Development",
   "Topic :: Scientific/Engineering",
@@ -14,9 +13,11 @@ dependencies = [
 ]
 description = "No Hint Crossword Puzzle"
 include = ["crosswordpy_data"]
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
 name = "crosswordpy"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 version = "0.2.1"
 
 [project.urls]
@@ -49,7 +50,16 @@ project-includes = ["src"]
 src = ["src"]
 
 [tool.ruff.lint]
-ignore = ["CPY", "D203", "D213", "D400", "D415", "E501", "PLR2004", "S311"]
+ignore = [
+  "CPY",
+  "incorrect-blank-line-before-class",
+  "multi-line-summary-second-line",
+  "missing-trailing-period",
+  "missing-terminal-punctuation",
+  "line-too-long",
+  "magic-value-comparison",
+  "suspicious-non-cryptographic-random-usage",
+]
 preview = true
 select = ["ALL"]
 
@@ -58,4 +68,4 @@ max-complexity = 10
 
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.12.0,<0.13.0"]
+requires = ["uv_build>=0.13.3,<0.14.0"]
